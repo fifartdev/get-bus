@@ -14,22 +14,29 @@ const AuthProvider = ({children})=>{
     const [user,setUser] = useState(null)
     const [session,setSession] = useState(null)
     const [userId,setUserId] = useState(null)
-   //======END STATES=====//  
+    const [loading,setLoading] = useState(false)
+
+    //======END STATES=====//  
 
    //===========FUNCTIONS==========//
+
     const getUser = async () => {
+        setLoading(true)
         try {
             const res = await account.get()
             setUser(res)
         } catch (error) {
             console.log('Error geting user: ', error.message);
-        } 
+        } finally {
+            setLoading(false)
+        }
     }
 
     const handleSendOtp = async (e,email)=>{
         e.preventDefault();
         if(email){
             try {
+                setLoading(true)
                 const sessionToken = await account.createEmailToken(
                     ID.unique(),
                     email
@@ -37,15 +44,18 @@ const AuthProvider = ({children})=>{
                 const result = sessionToken.userId
                 setUserId(result)
             } catch (error) {
+                window.alert('ERROR', error.message)
                 console.log('Error creating otp: ', error.message);
-            } 
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
     const handleLogin = async (e,secret)=>{
         e.preventDefault()
         if(secret){
-
+            setLoading(true)
             try {
                 const session = await account.createSession(
                     userId,
@@ -59,6 +69,7 @@ const AuthProvider = ({children})=>{
                 getUser()
             }
         }
+        setLoading(false)
     }
 
     const handleLogout = async () => {
@@ -84,7 +95,8 @@ const AuthProvider = ({children})=>{
         session,
         handleSendOtp,
         handleLogin,
-        handleLogout
+        handleLogout,
+        loading
     }
 return(
     <AuthContext.Provider value={data}>

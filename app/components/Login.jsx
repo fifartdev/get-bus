@@ -7,13 +7,19 @@ function Login() {
   const [email, setEmail] = useState('')
   const [secret,setSecret] = useState('')
   const [hidden,setHidden] = useState(false)
-  const { handleLogin, handleSendOtp } = useAuth()
+  const { handleLogin, handleSendOtp, errors, loading } = useAuth()
   
+  if(loading){
+    return (<div className='flex justify-center max-h-screen'>
+      <h1>Loading...</h1>
+    </div>)
+  }
 
   return (
     <>
     <form onSubmit={(e) => {
-        handleSendOtp(e, email) 
+        handleSendOtp(e, email)
+        if(!errors) 
         setHidden(true)
     }
     } className={hidden ? 'hidden' : null}>
@@ -42,7 +48,7 @@ function Login() {
         <input
           type="number"
           id="secret"
-          placeholder='* * * * * *'
+          placeholder='- - - - - -'
           value={secret}
           onChange={(e) => setSecret(e.target.value)}
           required
