@@ -6,9 +6,6 @@ import { redirect } from 'next/navigation'
 function profilePage() {
     const { user, handleLogout } = useAuth()
 
-    if(!user){
-        redirect('/')
-    }
 
   return (
     <div>

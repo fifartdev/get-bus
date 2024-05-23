@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <main>
       <div>
-        <button className="mx-2" onClick={() => router.push("/login")}>
+        <button className="mx-2" onClick={() => router.push("/otp")}>
           Login
         </button>
         <button className="mx-2" onClick={() => router.push("/register")}>

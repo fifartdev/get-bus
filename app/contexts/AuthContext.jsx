@@ -67,6 +67,7 @@ const AuthProvider = ({children})=>{
             } finally {
                 console.log('We got User Session with data: ', session);
                 getUser()
+                router.push('/dashboard')
             }
         }
         setLoading(false)

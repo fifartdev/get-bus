@@ -6,12 +6,8 @@ import { useAuth } from '@/app/contexts/AuthContext'
 
 function dashboardPage() {
 
-    const {user,handleLogout} = useAuth()
+    const {handleLogout, user} = useAuth()
     
-
-    if(!user){
-        redirect('/')
-    }
 
     if(!user.name){
       redirect(`/${user.$id}`)
